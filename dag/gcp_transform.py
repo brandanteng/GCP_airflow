@@ -75,6 +75,46 @@ def get_cagr():
     except Exception as e:
         logger.error(f"An error occurred in get_cagr: {str(e)}")
 
+def get_pe():
+    logger.info("Get PE started")
+    
+    try:
+        eps_data_point = read_csv_from_gcs(f"{gcs_bucket}/data/raw_data/eps.csv")
+        share_prices_data = read_csv_from_gcs(f"{gcs_bucket}/data/clean_data/share_prices.csv")
+        
+        share_prices = pd.DataFrame(data=share_prices_data)
+        eps_data = pd.DataFrame(data=eps_data_point)
+        
+        share_prices['Date'] = pd.to_datetime(share_prices['Date'])
+        
+        flattened_items = []
+        
+        for company in companies:
+            df = share_prices[share_prices['symbol'] == company].sort_values(by='Date')
+
+            price = df.iloc[-1]['Close']
+
+            eps = eps_data[eps_data['symbol'] == company]['eps'].values[0]
+                
+            pe = price/eps
+            
+            flattened_item = {
+                'symbol': company,
+                'pe': pe
+            }
+    
+            flattened_items.append(flattened_item)
+    
+        df = pd.DataFrame(data=flattened_items, columns=['symbol', 'pe'])
+        
+        csv_data = df.to_csv(index=False)
+        
+        with fs.open(f"{gcs_bucket}/data/clean_data/pe.csv", "w") as f:
+            f.write(csv_data)
+        
+        logger.info("Get PE ended")
+    except Exception as e:
+        logger.error(f"An error occurred in get_pe: {str(e)}")
 
 def insert_sentiment():
     logger.info("Insert into sentiment started")
@@ -144,4 +184,10 @@ insert_share_price = PythonOperator(
     dag=transformation_dag
 ) 
 
-start_dag >> insert_sentiment >> insert_share_price >> get_cagr >> end_dag
+get_pe = PythonOperator(
+    task_id='get_pe',
+    python_callable=get_pe,
+    dag=transformation_dag
+) 
+
+start_dag >> insert_sentiment >> insert_share_price >> get_cagr >> get_pe >> end_dag
