@@ -82,6 +82,13 @@ def load_share_price():
     
     job = client.load_table_from_uri(share_price_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
+    
+def load_pe():
+    pe = 'data/clean_data/pe.csv'
+    pe_uri = f'gs://{gcs_bucket}/{pe}'
+    
+    job = client.load_table_from_uri(pe_uri, project_id + '.' + table_id, job_config=job_config)
+    job.result()
 
 default_args = {
     'owner': 'airflow',
@@ -152,4 +159,10 @@ load_share_price = PythonOperator(
     dag=update_dag
 )
 
-start_dag >> load_cagr >> load_financial_profile >> load_growth_rates >> load_income_statement >> load_profile >> load_sentiment >> load_share_price >> end_dag
+load_pe = PythonOperator(
+    task_id='load_pe',
+    python_callable=load_pe,
+    dag=update_dag
+)
+
+start_dag >> load_cagr >> load_financial_profile >> load_growth_rates >> load_income_statement >> load_profile >> load_sentiment >> load_share_price >> load_pe >> end_dag
