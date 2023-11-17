@@ -147,9 +147,8 @@ default_args = {
 transformation_dag = DAG(
     'transformation_dag',
     default_args=default_args, 
-    schedule_interval= None,
     description='Transform data from GCS to be used in BigQuery',
-    # schedule_interval="0 23 * * 1-5",
+    schedule_interval="0 22 * * 1-5",
     catchup=False
 )
 

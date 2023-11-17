@@ -658,7 +658,7 @@ extraction_dag = DAG(
     'extraction_dag',
     default_args=default_args, 
     description='Extract data from multiple API to GCS',
-    schedule_interval="0 22 * * 1-5",
+    schedule_interval="0 21 * * 1-5",
     catchup=False
 )
 

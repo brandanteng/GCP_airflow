@@ -100,7 +100,7 @@ update_dag = DAG(
     'update_dag',
     default_args=default_args, 
     description='Load data from GCS to BigQuery',
-    schedule_interval= None,
+    schedule_interval="0 23 * * 1-5",
     catchup=False
 )
 
