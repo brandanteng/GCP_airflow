@@ -711,6 +711,12 @@ get_share_price = PythonOperator(
     dag=extraction_dag
 )
 
+get_eps = PythonOperator(
+    task_id='get_eps',
+    python_callable=get_eps,
+    dag=extraction_dag
+)
+
 end_dag = PythonOperator(
     task_id='end_dag',
     python_callable=end_dag,
@@ -718,4 +724,4 @@ end_dag = PythonOperator(
 )
 
 # Define the task dependencies
-start_dag >> get_profile >> get_financial_profile >> get_growth_rates >> get_income_statement >> get_earnings >> get_share_price >> get_sentiment >> end_dag
+start_dag >> get_profile >> get_financial_profile >> get_growth_rates >> get_income_statement >> get_earnings >> get_share_price >> get_eps >> get_sentiment >> end_dag
