@@ -580,6 +580,72 @@ def get_income_statement():
 
     logger.info(f"Get income statement ended")
 
+def get_eps():
+    #FMP
+    url = 'https://financialmodelingprep.com/api/v3/quote/'
+
+    api_key = "4eiHO5ke53QNwBQEO3zSPVMaH5kEiPJq"
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    params = {
+        "apikey": api_key
+    }
+
+    flattened_items = []
+
+    logger.info(f"Starting to get EPS")
+    
+    response = requests.get(url, headers=headers, params=params)
+
+    for company in companies:
+        response = requests.get(url+company, headers=headers, params=params)
+
+        if response.status_code == 200:
+            data_things = response.json()
+            
+            flattened_item = {
+                "symbol": company,
+                "eps": data_things[0]["eps"]
+            }
+                
+            flattened_items.append(flattened_item)
+        else:
+        #AV
+        
+            url_backup = "https://www.alphavantage.co/query?function=EARNINGS&symbol="
+                
+            api_key_backup = "7EM86RAEWREII1BH"
+
+            headers_backup = {
+                "Content-Type": "application/json"
+            }
+            
+            params_backup = {
+                "apikey": api_key_backup
+            }
+            
+            response_backup = requests.get(url_backup+company, headers=headers_backup, params=params_backup)
+                
+            data_things = response_backup.json()
+            flattened_item = {
+                "symbol": company,
+                "eps": data_things['annualEarnings'][0]["reportedEPS"]
+            }
+                
+            flattened_items.append(flattened_item)
+                
+    df = pd.DataFrame(flattened_items)
+                    
+    csv_data = df.to_csv(index=False)
+                
+    with fs.open(f"{gcs_bucket}/data/raw_data/eps.csv", "w") as f:
+        f.write(csv_data)
+    
+    logger.info(f"Get EPS ended")
+
 # Define the Airflow DAG and its configurations
 default_args = {
     'owner': 'airflow',
