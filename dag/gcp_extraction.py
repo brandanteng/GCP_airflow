@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 # Define Google Cloud Storage bucket and file path
 gcs_bucket = 'us-central1-testinggcpairfl-b6522ecc-bucket'
-fs = gcsfs.GCSFileSystem(project="My First Project")
 
 #Define constants
 companies = ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]
@@ -70,6 +69,8 @@ def get_profile():
 
         df = pd.DataFrame(flattened_items)
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
 
         with fs.open(f"{gcs_bucket}/data/raw_data/profile.csv", "w") as f:
             f.write(csv_data)
@@ -143,6 +144,8 @@ def get_financial_profile():
 
         df = pd.DataFrame(flattened_items)
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
                 
         with fs.open(f"{gcs_bucket}/data/raw_data/financial_profile.csv", "w") as f:
             f.write(csv_data)
@@ -253,6 +256,8 @@ def get_share_price():
         df = pd.DataFrame(flattened_items)
                         
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
                     
         with fs.open(f"{gcs_bucket}/data/raw_data/share_price_{today_date}.csv", "w") as f:
             f.write(csv_data)
@@ -318,6 +323,8 @@ def get_earnings():
         df = pd.DataFrame(flattened_items)
                 
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
                     
         with fs.open(f"{gcs_bucket}/data/raw_data/earnings.csv", "w") as f:
             f.write(csv_data)
@@ -388,6 +395,8 @@ def get_sentiment():
                 df = pd.DataFrame(flattened_items)
                 
                 csv_data = df.to_csv(index=False)
+                
+                fs = gcsfs.GCSFileSystem(project="My First Project")
                 
                 with fs.open(f"{gcs_bucket}/data/raw_data/sentiment_{today_date}.csv", "w") as f:
                     f.write(csv_data)
@@ -482,6 +491,8 @@ def get_growth_rates():
         df = pd.DataFrame(flattened_items)
 
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
 
         with fs.open(f"{gcs_bucket}/data/raw_data/growth_rates.csv", "w") as f:
             f.write(csv_data)
@@ -571,6 +582,8 @@ def get_income_statement():
         df = pd.DataFrame(flattened_items)
 
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
 
         with fs.open(f"{gcs_bucket}/data/raw_data/income_statement.csv", "w") as f:
             f.write(csv_data)
@@ -642,6 +655,8 @@ def get_eps():
         df = pd.DataFrame(flattened_items)
 
         csv_data = df.to_csv(index=False)
+        
+        fs = gcsfs.GCSFileSystem(project="My First Project")
 
         with fs.open(f"{gcs_bucket}/data/raw_data/eps.csv", "w") as f:
             f.write(csv_data)
