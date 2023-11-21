@@ -194,7 +194,7 @@ def get_share_price():
             for item in data_things:
                 flattened_item = {
                     "symbol": company,
-                    '‘Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
+                    'Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
                     'Open': item['open'],
                     'High': item['dayHigh'],
                     'Low': item['dayLow'],
@@ -224,7 +224,7 @@ def get_share_price():
                 for item in data_things['Global Quote']:
                     flattened_item = {
                         "symbol": company,
-                        '‘Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
+                        'Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
                         'Open': item['02. open'],
                         'High': item['03. high'],
                         'Low': item['04. low'],
@@ -254,7 +254,7 @@ def get_share_price():
                     for item in data_things[0]:
                         flattened_item = {
                             "symbol": company,
-                            '‘Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
+                            'Date': f'{datetime.datetime.now().day}/{datetime.datetime.now().month}/{datetime.datetime.now().year}',
                             'Open': item['open'],
                             'High': item['high'],
                             'Low': item['low'],
