@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 # Define Google Cloud Storage bucket
 gcs_bucket = 'us-central1-testinggcpairfl-b6522ecc-bucket'
-fs = gcsfs.GCSFileSystem(project="My First Project")
 
 # Define constants
 companies = ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]
@@ -68,6 +67,8 @@ def get_cagr():
         
         csv_data = df.to_csv(index=False)
         
+        fs = gcsfs.GCSFileSystem(project="My First Project")
+        
         with fs.open(f"{gcs_bucket}/data/clean_data/cagr.csv", "w") as f:
             f.write(csv_data)
         
@@ -109,6 +110,8 @@ def get_pe():
         
         csv_data = df.to_csv(index=False)
         
+        fs = gcsfs.GCSFileSystem(project="My First Project")
+        
         with fs.open(f"{gcs_bucket}/data/clean_data/pe.csv", "w") as f:
             f.write(csv_data)
         
@@ -121,6 +124,8 @@ def insert_sentiment():
     
     sentiment_data = read_csv_from_gcs(f"{gcs_bucket}/data/raw_data/sentiment_{today_date}.csv")
     
+    fs = gcsfs.GCSFileSystem(project="My First Project")
+    
     with fs.open(f"{gcs_bucket}/data/clean_data/sentiment.csv", "a") as f:
         f.write(sentiment_data.to_csv(index=False))
     
@@ -130,6 +135,8 @@ def insert_share_price():
     logger.info("Insert into share_prices started")
     
     sentiment_data = read_csv_from_gcs(f"{gcs_bucket}/data/raw_data/share_price_{today_date}.csv")
+    
+    fs = gcsfs.GCSFileSystem(project="My First Project")
     
     with fs.open(f"{gcs_bucket}/data/clean_data/share_prices.csv", "a") as f:
         f.write(sentiment_data.to_csv(index=False))
