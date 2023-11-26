@@ -134,12 +134,12 @@ def insert_sentiment():
 def insert_share_price():
     logger.info("Insert into share_prices started")
     
-    sentiment_data = read_csv_from_gcs(f"{gcs_bucket}/data/raw_data/share_price_{today_date}.csv")
+    share_price_data = read_csv_from_gcs(f"{gcs_bucket}/data/raw_data/share_price_{today_date}.csv")
     
     fs = gcsfs.GCSFileSystem(project="My First Project")
     
     with fs.open(f"{gcs_bucket}/data/clean_data/share_prices.csv", "a") as f:
-        f.write(sentiment_data.to_csv(index=False))
+        f.write(share_price_data.to_csv(index=False))
     
     logger.info("Insert into share_prices ended")
 
