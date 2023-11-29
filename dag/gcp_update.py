@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 # Set project and table ID
 project_id = 'prefab-list-404501'
-table_id = 'gcp_airflow.cagr'
 
 # Initialize BigQuery client
 client = bigquery.Client()
@@ -36,6 +35,7 @@ def end_dag():
 def load_cagr():
     cagr = 'data/clean_data/cagr.csv'
     cagr_uri = f'gs://{gcs_bucket}/{cagr}'
+    table_id = 'gcp_airflow.cagr'
     
     job = client.load_table_from_uri(cagr_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -43,6 +43,7 @@ def load_cagr():
 def load_financial_profile():
     financial_profile = 'data/raw_data/financial_profile.csv'
     financial_profile_uri = f'gs://{gcs_bucket}/{financial_profile}'
+    table_id = 'gcp_airflow.financial_profile'
     
     job = client.load_table_from_uri(financial_profile_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -50,6 +51,7 @@ def load_financial_profile():
 def load_growth_rates():
     growth_rates = 'data/raw_data/growth_rates.csv'
     growth_rates_uri = f'gs://{gcs_bucket}/{growth_rates}'
+    table_id = 'gcp_airflow.growth_rates'
     
     job = client.load_table_from_uri(growth_rates_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -58,6 +60,7 @@ def load_growth_rates():
 def load_income_statement():
     income_statement = 'data/raw_data/income_statement.csv'
     income_statement_uri = f'gs://{gcs_bucket}/{income_statement}'
+    table_id = 'gcp_airflow.income_statement'
     
     job = client.load_table_from_uri(income_statement_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -65,6 +68,7 @@ def load_income_statement():
 def load_profile():
     profile = 'data/raw_data/profile.csv'
     profile_uri = f'gs://{gcs_bucket}/{profile}'
+    table_id = 'gcp_airflow.profile'
     
     job = client.load_table_from_uri(profile_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -72,6 +76,7 @@ def load_profile():
 def load_sentiment():
     sentiment = 'data/clean_data/sentiment.csv'
     sentiment_uri = f'gs://{gcs_bucket}/{sentiment}'
+    table_id = 'gcp_airflow.sentiment'
     
     job = client.load_table_from_uri(sentiment_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -79,6 +84,7 @@ def load_sentiment():
 def load_share_price():
     share_price = 'data/clean_data/share_prices.csv'
     share_price_uri = f'gs://{gcs_bucket}/{share_price}'
+    table_id = 'gcp_airflow.share_prices_2'
     
     job = client.load_table_from_uri(share_price_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
@@ -86,6 +92,7 @@ def load_share_price():
 def load_pe():
     pe = 'data/clean_data/pe.csv'
     pe_uri = f'gs://{gcs_bucket}/{pe}'
+    table_id = 'gcp_airflow.pe'
     
     job = client.load_table_from_uri(pe_uri, project_id + '.' + table_id, job_config=job_config)
     job.result()
